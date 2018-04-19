@@ -1,18 +1,13 @@
-const model = require('../models/lawnModel');
-const isObjectEmpty = require('../utils/isObjectEmpty');
+const lawnModel = require('../models/lawnModel');
+const { initMower } = require('../modules');
+const { isObjectEmpty } = require('../utils');
 
 class Lawn {
   constructor({ x, y }, mowers) {
+    const model = lawnModel(x, y);
+    const mowersLocation = mowers.map(({ coord }) => initMower(coord, model));
+    this.area = [...model, ...mowersLocation];
     this.limit = { x, y };
-    this.area = model(x, y);
-    mowers.map(mower => this._initMower(mower.coord));
-  }
-
-  _initMower(coord) {
-    const { x, y } = coord;
-    const data = [...this.area];
-    data[x][y] = coord;
-    this.area = [...data];
   }
 
   isCoordValid({ x, y }) {
@@ -20,8 +15,6 @@ class Lawn {
   }
 
   isCoordEmpty({ x, y }) {
-    // console.log(x, y);
-    // console.log(this.area);
     const box = this.area[x][y];
     return isObjectEmpty(box);
   }

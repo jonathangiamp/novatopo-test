@@ -1,3 +1,5 @@
+const { getNewDirection, getTargetPosition } = require('../modules');
+
 class Mower {
   constructor(paramsMower, lawn) {
     const { x, y, d } = paramsMower.coord;
@@ -13,49 +15,15 @@ class Mower {
     return this.instructions[0];
   }
 
-  getTargetPosition() {
-    const { current } = this.coord;
-    if (current.d === 'N') {
-      return Object.assign(current, { y: current.y + 1 });
-    }
-    if (current.d === 'E') {
-      return Object.assign({}, current, { x: current.x + 1 });
-    }
-    if (current.d === 'S') {
-      return Object.assign({}, current, { y: current.y - 1 });
-    }
-    if (current.d === 'W') {
-      return Object.assign({}, current, { x: current.x - 1 });
-    }
-    throw new Error('Incorrect instruction');
-  }
-
-  getNewDirection(instruction) {
-    const { current } = this.coord;
-    if (current.d === 'N') {
-      return instruction === 'L' ? 'W' : 'E';
-    }
-    if (current.d === 'E') {
-      return instruction === 'L' ? 'N' : 'S';
-    }
-    if (current.d === 'S') {
-      return instruction === 'L' ? 'E' : 'W';
-    }
-    if (current.d === 'W') {
-      return instruction === 'L' ? 'S' : 'N';
-    }
-    throw new Error('Incorrect direction');
-  }
-
   getNewCoord(instruction) {
     try {
       if (instruction === 'L' || instruction === 'R') {
         const { current } = this.coord;
-        const newDirection = this.getNewDirection(instruction);
+        const newDirection = getNewDirection(instruction, this.coord.current);
         return Object.assign({}, current, { d: newDirection });
       }
       if (instruction === 'F') {
-        return this.getTargetPosition();
+        return getTargetPosition(this.coord);
       }
     } catch (e) {
       throw new Error(e);
