@@ -1,17 +1,19 @@
 {
   "name": "novatopo-test",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Novatopo - Test",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint .",
+    "start": "node index.js"
   },
   "author": "jonathangiamp <jonathan.giamporcaro@gmail.com> (https://twitter.com/JonGiamp)",
   "license": "SEE LICENSE IN <LICENSE>",
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jest": "^21.15.0",
     "jest": "^22.4.3"
   }
